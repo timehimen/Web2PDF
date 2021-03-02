@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  php-httpd:
+    image: php:7.4-apache
+    ports:
+      - 80:80
+    volumes:
+      - "/Users/dude/Projects/Web2PDF/:/var/www/html"
+    extra_hosts:
+      - "apps.local:127.0.0.1"
+    hostname: apps.local
+    domainname: local
+    ## Enable MySQLi with docker-php-ext-install mysqli
+    ## Enable mod_rewrite with a2enmod rewrite
