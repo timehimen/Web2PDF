@@ -7,12 +7,12 @@ use \Web2PDF\Web2PDF;
 use Web2PDF\Exceptions\CommandFailedException;
 use Web2PDF\Exceptions\CommandNotFoundException;
 
-$pdf = new Web2PDF("yahoo.com");
+$pdf = new Web2PDF("wkhtmltopdf");
 
 $pdf->set_option("lowquality");
 
 try {
-    echo nl2br($pdf->exec()->get_output());
+    echo nl2br($pdf->exec("google.com")->get_output());
 }
 catch (CommandFailedException $e) {
     echo "Command failed <br>" . $e->getMessage();

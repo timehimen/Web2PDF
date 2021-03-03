@@ -13,11 +13,10 @@ use Web2PDF\Exceptions\CommandFailedException;
 use Web2PDF\Exceptions\CommandNotFoundException;
 
 class Web2PDF {
-    private $command, $url, $options, $output, $result;
+    private $command, $options, $output, $result;
 
-    public function __construct(string $url) {
-        $this->command = "";
-        $this->url = $url;
+    public function __construct(string $path_to_binary) {
+        $this->command = $path_to_binary;
         $this->options = [];
         $this->output = null;
         $this->result = null;
@@ -27,8 +26,7 @@ class Web2PDF {
         $this->options[$option] = $value;
     }
 
-    public function exec(): self {
-        $this->command = "wkhtmltopdf";
+    public function exec(string $url): self {
 
         foreach ($this->options as $option=>$value) {
             $this->command .= " --" . $option;
@@ -38,7 +36,7 @@ class Web2PDF {
             }
         }
 
-        $this->command .= " " . $this->url . " temp.pdf 2>&1"; //2>&1 added to redirect shell output to output array
+        $this->command .= " " . $url . " temp.pdf 2>&1"; //2>&1 added to redirect shell output to output array
 
         exec($this->command, $this->output, $this->result);
 
