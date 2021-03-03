@@ -15,8 +15,8 @@ use Web2PDF\Exceptions\CommandNotFoundException;
 class Web2PDF {
     private $command, $options, $output, $result;
 
-    public function __construct(string $path_to_binary) {
-        $this->command = $path_to_binary;
+    public function __construct(string $path_to_executable) {
+        $this->command = $path_to_executable;
         $this->options = [];
         $this->output = null;
         $this->result = null;
