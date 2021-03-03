@@ -7,6 +7,8 @@
 
 namespace Web2PDF;
 
+require_once 'exceptions.class.php';
+
 use Web2PDF\Exceptions\CommandFailedException;
 use Web2PDF\Exceptions\CommandNotFoundException;
 
@@ -21,7 +23,7 @@ class Web2PDF {
         $this->result = null;
     }
 
-    public function set_option(string $option, string $value): void {
+    public function set_option(string $option, string $value = null): void {
         $this->options[$option] = $value;
     }
 
@@ -29,7 +31,11 @@ class Web2PDF {
         $this->command = "wkhtmltopdf";
 
         foreach ($this->options as $option=>$value) {
-            $this->command .= " -- " . $option . " " . $value;
+            $this->command .= " --" . $option;
+
+            if ($value != null) {
+                $this->command .= " " . $value;
+            }
         }
 
         $this->command .= " " . $this->url . " temp.pdf 2>&1"; //2>&1 added to redirect shell output to output array
@@ -37,11 +43,11 @@ class Web2PDF {
         exec($this->command, $this->output, $this->result);
 
         if($this->get_result() == 127) {
-            throw new CommandNotFoundException($this->get_output());
+            throw new CommandNotFoundException("Command not found. Check if wkhtmltopdf is installed.");
         }
 
         if($this->get_result() == 1) {
-            throw new CommandFailedException($this->get_output());
+            throw new CommandFailedException("wkhtmltopdf command failed. Check output for more information");
         }
 
         return $this;

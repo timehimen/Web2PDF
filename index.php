@@ -4,13 +4,19 @@ require_once 'web2pdf.class.php';
 
 use \Web2PDF\Web2PDF;
 
-$pdf = new Web2PDF("google.com");
+use Web2PDF\Exceptions\CommandFailedException;
+use Web2PDF\Exceptions\CommandNotFoundException;
+
+$pdf = new Web2PDF("yahoo.com");
+
+$pdf->set_option("lowquality");
 
 try {
     echo nl2br($pdf->exec()->get_output());
 }
 catch (CommandFailedException $e) {
     echo "Command failed <br>" . $e->getMessage();
+    echo $pdf->get_output();
 }
 catch (CommandNotFoundException $e) {
     echo "Command not found <br>" . $e->getMessage();
