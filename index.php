@@ -1,7 +1,13 @@
 <?php
 
-require_once 'Web2PDF.php';
+require_once 'web2pdf.class.php';
 
-$pdf = new Web2PDF("https://facebook.com");
+$pdf = new Web2PDF("hi.com");
 
-echo nl2br($pdf->exec()->get_output());
+try {
+    echo $pdf->exec()->get_result();
+} catch (CommandFailedException $e) {
+    echo "Command failed <br>" . $e->getMessage();
+} catch (CommandNotFoundException $e) {
+    echo "Command not found <br>" . $e->getMessage();
+}

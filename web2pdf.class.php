@@ -1,4 +1,5 @@
 <?php
+namespace Web2PDF\Core;
 
 /**
  * Web2PDF is a PHP wrapper for wkhtmltopdf. See wkhtmltopdf.org for details
@@ -6,6 +7,7 @@
  * Email: tim@timothyehimen.com
  */
 
+require_once 'exceptions.class.php';
 
 class Web2PDF {
     private $command, $url, $options, $output, $result;
@@ -32,6 +34,14 @@ class Web2PDF {
         $this->command .= " " . $this->url . " temp.pdf 2>&1"; //2>&1 added to redirect shell output to output array
 
         exec($this->command, $this->output, $this->result);
+
+        if($this->get_result() == 127) {
+            throw new CommandNotFoundException($this->get_output());
+        }
+
+        if($this->get_result() == 1) {
+            throw new CommandFailedException($this->get_output());
+        }
 
         return $this;
     }
