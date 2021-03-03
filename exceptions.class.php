@@ -2,6 +2,8 @@
 
 namespace Web2PDF\Exceptions;
 
+use Exception;
+
 class CommandNotFoundException extends Exception {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {

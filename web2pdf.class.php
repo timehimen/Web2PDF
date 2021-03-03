@@ -1,13 +1,14 @@
 <?php
-namespace Web2PDF\Core;
-
 /**
  * Web2PDF is a PHP wrapper for wkhtmltopdf. See wkhtmltopdf.org for details
  * Author: Timothy Ehimen
  * Email: tim@timothyehimen.com
  */
 
-require_once 'exceptions.class.php';
+namespace Web2PDF;
+
+use Web2PDF\Exceptions\CommandFailedException;
+use Web2PDF\Exceptions\CommandNotFoundException;
 
 class Web2PDF {
     private $command, $url, $options, $output, $result;
